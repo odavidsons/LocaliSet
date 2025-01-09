@@ -7,34 +7,14 @@ try {
     $incubadoras = [];
 }
 
-//Handle save to favorites
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_favorite'])) {
-    $totalCost = $_POST['totalCost'] ?? '';
-    $escritorioSelect = $_POST['escritorioSelect'] ?? '';
-    $markerSelect = $_POST['markerSelect'] ?? '';
 
-    if ($totalCost && $escritorioSelect && $markerSelect) {
-        try {
-            $stmt = $connection->prepare("INSERT INTO favoritos (Calculos, IDEscritorio, IDIncubadora) VALUES (:calculos, :escritorio, :incubadora)");
-            $stmt->bindParam(':calculos', $totalCost);
-            $stmt->bindParam(':escritorio', $escritorioSelect);
-            $stmt->bindParam(':incubadora', $markerSelect);
-            $stmt->execute();
-            echo "<div class='alert alert-success'>Pesquisa salva com sucesso!</div>";
-        } catch (PDOException $e) {
-            echo "<div class='alert alert-danger'>Erro ao salvar pesquisa: " . $e->getMessage() . "</div>";
-        }
-    } else {
-        echo "<div class='alert alert-warning'>Por favor, selecione todas as opções antes de salvar.</div>";
-    }
-}
 ?>
 <div class="container">
 <div class="search_content">
 <h1>Incubadoras empresariais no Porto</h1>
     <div id="map"></div>
     <div class="details">
-        <form id="markerForm" method="POST">
+        <form id="markerForm" method="POST" action="PHP/add_favorito.php">
             <label for="markerSelect">Selecione uma localização:</label>
             <select id="markerSelect" name="marker">
                 <option value="">-- Opções --</option>
@@ -62,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_favorite'])) {
 
             <input type="hidden" name="totalCost" id="hiddenTotalCost" />
             <button type="submit" name="save_favorite" class="btn btn-primary" style="margin-top: 20px;" disabled id="saveSearchBtn">
-                Salvar Pesquisa
+                Guardar nos Favoritos
             </button>
         </form>
         <div id="details"></div>
@@ -174,9 +154,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_favorite'])) {
                         if (months < 24) {
                             var finalTaxCost = totalCost + (totalCost * 0.23);
                             totalCostDiv.innerHTML = `Período de renda de ${months} meses <br> Custo estimado: ${totalCost}€ <br> Taxa aplicada: 23% <br> Valor total: ${finalTaxCost}`;
+                            hiddenTotalCost.value = totalCostDiv.innerHTML;
                         } else {
                             var finalTaxCost = totalCost + (totalCost * 0.13);
                             totalCostDiv.innerHTML = `Período de renda de ${months} meses <br> Custo estimado: ${totalCost}€ <br> Taxa aplicada: 13% <br> Valor total: ${finalTaxCost}`;
+                            hiddenTotalCost.value = totalCostDiv.innerHTML;
                         }
                         saveSearchBtn.disabled = false;
                     } else {

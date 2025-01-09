@@ -32,19 +32,19 @@
                 } else {
                     ?>
 					<li class="nav-item">
-						<a class="nav-link text-light">Guest Access</a>
+						<a class="nav-link text-light">Acesso anónimo</a>
 					</li>
                     <li class="nav-item dropdown-center">
 					<a class="nav-link dropdown-toggle text-light" href="#" data-bs-toggle="dropdown"
-						aria-expanded="false">Session</a>
+						aria-expanded="false">Sessão</a>
 					<ul class="dropdown-menu">
 						<li>
 							<a class="dropdown-item text-dark"
-								href="index.php?page=login">Login</a>
+								href="index.php?page=login">Entrar</a>
 						</li>
 						<li>
 							<a class="dropdown-item text-dark"
-								href="index.php?page=signup">Register</a>
+								href="index.php?page=signup">Registar</a>
 						</li>
 					</ul>
 				    </li>

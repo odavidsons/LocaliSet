@@ -25,7 +25,7 @@ try {
             i.Nome AS incubadora,
             f.Calculos AS calculos
         FROM favoritos f
-        INNER JOIN escritorio e ON f.ID = e.ID
+        INNER JOIN escritorio e ON f.IDEscritorio = e.ID
         INNER JOIN incubadora i ON e.ID = i.ID
         WHERE f.IDUtilizador = :userId
     ");

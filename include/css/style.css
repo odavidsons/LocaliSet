@@ -48,7 +48,7 @@ html {
 
 .login-container {
     margin-top: 50px;
-    background: #e2ebf5;
+    background: rgb(50, 57, 61);
     padding: 20px 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -58,7 +58,7 @@ html {
 
 .register-container {
     margin-top: 150px;
-    background: #e2ebf5;
+    background: rgb(50, 57, 61);
     padding: 20px 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -68,14 +68,14 @@ html {
 
 .login-form h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: #ffffff;
 }
 
 .login-form label {
     display: block;
     margin: 10px 0 5px;
     font-size: 1em;
-    color: #333;
+    color: #ffffff;
 }
 
 .login-form input {
@@ -97,7 +97,7 @@ html {
 .login-button {
     width: 80%;
     padding: 10px;
-    background: #4a90e2;
+    background: #488856;
     color: #fff;
     font-size: 1em;
     border: none;
@@ -109,7 +109,7 @@ html {
 .register-button {
     width: 50%;
     padding: 7px;
-    background: #424850;
+    background: #5b7aa3;
     color: #fff;
     font-size: 1em;
     border: none;
@@ -315,7 +315,7 @@ html {
         max-width: 22%;
     }
     /* Profile Page */
-    .favourites_content {
+    .profile_content {
         width: 90%;
     }
     /* Upload Page */
@@ -417,7 +417,7 @@ html {
         max-width: 25%;
     }
     /* Profile Page */
-    .favourites_content {
+    .profile_content {
         width: 90%;
     }
     /* Upload Page */
