@@ -6,7 +6,7 @@
 					<a class="nav-link text-light" href="index.php?page=home">Home</a>
 				</li>
                 <li class="nav-item">
-					<a class="nav-link text-light" href="index.php?page=search">Search</a>
+					<a class="nav-link text-light" href="index.php?page=search">Pesquisar escritórios</a>
 				</li>
 			</ul>
 			<div class="text-end">

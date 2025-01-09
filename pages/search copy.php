@@ -6,35 +6,13 @@ try {
     echo "Error fetching locations: " . $e->getMessage();
     $incubadoras = [];
 }
-
-//Handle save to favorites
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_favorite'])) {
-    $totalCost = $_POST['totalCost'] ?? '';
-    $escritorioSelect = $_POST['escritorioSelect'] ?? '';
-    $markerSelect = $_POST['markerSelect'] ?? '';
-
-    if ($totalCost && $escritorioSelect && $markerSelect) {
-        try {
-            $stmt = $connection->prepare("INSERT INTO favoritos (Calculos, IDEscritorio, IDIncubadora) VALUES (:calculos, :escritorio, :incubadora)");
-            $stmt->bindParam(':calculos', $totalCost);
-            $stmt->bindParam(':escritorio', $escritorioSelect);
-            $stmt->bindParam(':incubadora', $markerSelect);
-            $stmt->execute();
-            echo "<div class='alert alert-success'>Pesquisa salva com sucesso!</div>";
-        } catch (PDOException $e) {
-            echo "<div class='alert alert-danger'>Erro ao salvar pesquisa: " . $e->getMessage() . "</div>";
-        }
-    } else {
-        echo "<div class='alert alert-warning'>Por favor, selecione todas as opções antes de salvar.</div>";
-    }
-}
 ?>
 <div class="container">
 <div class="search_content">
 <h1>Incubadoras empresariais no Porto</h1>
     <div id="map"></div>
     <div class="details">
-        <form id="markerForm" method="POST">
+        <form id="markerForm">
             <label for="markerSelect">Selecione uma localização:</label>
             <select id="markerSelect" name="marker">
                 <option value="">-- Opções --</option>
@@ -59,11 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_favorite'])) {
             </select>
 
             <div id="totalCost" style="margin-top: 10px; font-weight: bold;">Custo total: 0€</div>
-
-            <input type="hidden" name="totalCost" id="hiddenTotalCost" />
-            <button type="submit" name="save_favorite" class="btn btn-primary" style="margin-top: 20px;" disabled id="saveSearchBtn">
-                Salvar Pesquisa
-            </button>
         </form>
         <div id="details"></div>
         <div id="markerDetails"></div>
@@ -92,7 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_favorite'])) {
                 const markerSelect = document.getElementById('markerSelect');
                 const escritorioSelect = document.getElementById('escritorioSelect');
                 const detailsDiv = document.getElementById('details');
-                const saveSearchBtn = document.getElementById('saveSearchBtn');
 
                 data.forEach(location => {
                     // Add marker to the map
@@ -178,11 +150,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_favorite'])) {
                             var finalTaxCost = totalCost + (totalCost * 0.13);
                             totalCostDiv.innerHTML = `Período de renda de ${months} meses <br> Custo estimado: ${totalCost}€ <br> Taxa aplicada: 13% <br> Valor total: ${finalTaxCost}`;
                         }
-                        saveSearchBtn.disabled = false;
                     } else {
                         totalCostDiv.textContent = 'Custo estimado: 0€';
-                        hiddenTotalCost.value = '';
-                        saveSearchBtn.disabled = true;
                     }
                 });
             })
