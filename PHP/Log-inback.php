@@ -35,7 +35,7 @@ $password = $_POST["password"];
                 $_SESSION['user_id'] = $row['ID'];         // Store user ID in session
                 $_SESSION['username'] = $row['Nome'];
                 echo $_SESSION['user_id'];
-                if($email=="admin@gmail.com")
+                if($row['Administrador'] == 1)
                 {
                     $_SESSION['usertype'] = 1;
                     header("Location: ../pages/admin.php");

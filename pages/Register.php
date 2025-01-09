@@ -11,7 +11,7 @@
     <div class="container-centered">
         <div class="register-container">
             <form id="formulario" class="login-form" action="PHP/registerback.php" method="POST">
-                <h2>Registar conta</h2>
+                <h2>Criar conta</h2>
 
                 <label for="nome">Primeiro e ultimo nome:</label>
                 <input id="nome" name="nome" placeholder="Primeiro e ultimo nome" required>

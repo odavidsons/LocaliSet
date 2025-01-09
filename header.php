@@ -2,12 +2,20 @@
 	<div class="container-fluid">
 		<div class="d-flex flex-wrap justify-content-center justify-content-lg-start">
 			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-				<li class="nav-item">
+			<?php
+                if (isset($_SESSION['username'])) {
+				echo '<li class="nav-item">
 					<a class="nav-link text-light" href="index.php?page=home">Home</a>
 				</li>
                 <li class="nav-item">
 					<a class="nav-link text-light" href="index.php?page=search">Pesquisar escritórios</a>
-				</li>
+				</li>';
+				} else {
+					echo '<li class="nav-item">
+					<a class="nav-link text-light">O acesso sem conta não é permitido</a>
+				</li>';
+				}
+				?>
 			</ul>
 			<div class="text-end">
 				<ul class="nav">
@@ -32,9 +40,10 @@
                 } else {
                     ?>
 					<li class="nav-item">
-						<a class="nav-link text-light">Acesso anónimo</a>
+						<a class="nav-link text-light"></a>
 					</li>
-                    <li class="nav-item dropdown-center">
+                    <!-- Icon style 
+					<li class="nav-item dropdown-center">
 					<a class="nav-link dropdown-toggle text-light" href="#" data-bs-toggle="dropdown"
 						aria-expanded="false">Sessão</a>
 					<ul class="dropdown-menu">
@@ -47,7 +56,7 @@
 								href="index.php?page=signup">Registar</a>
 						</li>
 					</ul>
-				    </li>
+				    </li>-->
                     <?php
                 }
                 ?>
