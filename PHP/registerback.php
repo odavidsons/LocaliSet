@@ -4,6 +4,7 @@
     $email = $_POST["email"];
     $password = $_POST["password"];
     $contacto = $_POST["contacto"];
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     $servername = $_dbhost;
     $username = $_dbusername;
@@ -39,7 +40,7 @@ if ($result->num_rows > 0) {
     // Verifica se a declaração foi preparada corretamente
     if ($stmt) {
     // Vincula os parâmetros
-    $stmt->bind_param("sssi", $nome, $email, $password, $contacto);
+    $stmt->bind_param("sssi", $nome, $email, $hashedPassword, $contacto);
 
     // Executa a declaração
     if ($stmt->execute()) {

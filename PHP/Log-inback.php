@@ -24,13 +24,14 @@ $password = $_POST["password"];
   $result = $stmt->get_result();
 
     if ($result->num_rows == 1) {
-        $testepassword = "SELECT * FROM utilizadores WHERE Email = ? AND Password = ?";
-        $stmt = $conn->prepare($testepassword);
-        $stmt->bind_param("ss", $email, $password);
+        $sql = "SELECT * FROM utilizadores WHERE Email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        if ($result->num_rows == 1) {
+        if (($result->num_rows == 1) && password_verify($password, $row['Password'])) {
+          
                 // Login bem-sucedido
                 $_SESSION['user_id'] = $row['ID'];         // Store user ID in session
                 $_SESSION['username'] = $row['Nome'];
@@ -42,7 +43,8 @@ $password = $_POST["password"];
                 }else{
                     $_SESSION['usertype'] = 0;
                     header("Location: ../index.php?page=search"); // Redireciona para uma página protegida
-                }               
+                }  
+                       
         } else{
             echo "<script>
             alert('Password introduzida inválida');
