@@ -20,17 +20,21 @@ try {
     // Fetch favorited offices for the logged-in user
     $stmt = $pdo->prepare("
         SELECT 
-            e.Numero AS numero,
-            e.Tamanho AS tamanho,
-            i.Nome AS incubadora,
-            f.Calculos AS calculos
+        e.Numero AS numero,
+        e.Tamanho AS tamanho,
+        i.Nome AS incubadora,
+        f.Calculos AS calculos,
+        f.ID
         FROM favoritos f
-        INNER JOIN escritorio e ON f.IDEscritorio = e.ID
-        INNER JOIN incubadora i ON e.ID = i.ID
-        WHERE f.IDUtilizador = :userId
+        LEFT JOIN escritorio e ON f.IDEscritorio = e.ID
+        LEFT JOIN incubadora i ON e.ID = i.ID
+        WHERE f.IDUtilizador = :userId;
     ");
     $stmt->execute(['userId' => $userId]);
     $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    /*foreach ($favorites as $favorite):
+        echo $favorite['incubadora'];
+    endforeach;exit;*/
 } catch (PDOException $e) {
     $error = "Erro ao carregar favoritos: " . $e->getMessage();
     $favorites = [];
@@ -42,7 +46,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favorited Offices</title>
+    <title>Favoritos</title>
     <style>
         
 
@@ -100,7 +104,7 @@ try {
         <!-- User Welcome Card -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Bem vindo, <?= htmlspecialchars($username); ?>!</h5>
+                <h5 class="card-title">Lista de pesquisas guardadas</h5>
             </div>
         </div>
 
@@ -113,6 +117,7 @@ try {
                         <th>Nº Escritório</th>
                         <th>Tamanho (m²)</th>
                         <th>Calculos</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -122,6 +127,13 @@ try {
                             <td><?= htmlspecialchars($favorite['numero']); ?></td>
                             <td><?= htmlspecialchars($favorite['tamanho']); ?></td>
                             <td><?= htmlspecialchars($favorite['calculos']); ?></td>
+                            <td>
+                                <!-- Remove button styled with Bootstrap classes -->
+                                <form method="POST" action="PHP/del_favorito.php">
+                                    <input type="hidden" name="favoriteId" value="<?php echo $favorite['ID']; ?>">
+                                    <button type="submit" name="removeFavorite" class="btn btn-danger btn-sm">Remover</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
