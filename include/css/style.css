@@ -1,0 +1,458 @@
+html {
+    scroll-behavior: auto;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(41, 41, 41);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CSS Leo */
+.select-box-container {
+    background: #e2ebf5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.select-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.custom-select {
+    width: 200px;
+    padding: 10px;
+    font-size: 1em;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #ffffff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: #80b3ff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.login-container {
+    margin-top: 50px;
+    background: #e2ebf5;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+.register-container {
+    margin-top: 150px;
+    background: #e2ebf5;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 1em;
+    color: #333;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #80b3ff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.login-button {
+    width: 80%;
+    padding: 10px;
+    background: #4a90e2;
+    color: #fff;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.register-button {
+    width: 50%;
+    padding: 7px;
+    background: #424850;
+    color: #fff;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background: #357ab8;
+}
+
+.register-button:hover {
+    background: #34393f;
+}
+
+
+
+.container-flex {
+    display: flex;
+}
+.container-centered {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+}
+
+/* Global page divs */
+    .header {
+        background-color: rgb(50, 57, 61);
+        font-size: 19px;
+        margin-bottom: 50px;
+    }
+    .header .nav-item:hover {
+        background-color: rgb(73, 84, 92);
+        border-radius: 10px;
+    }
+    .header .dropdown-center a:active {
+        background-color: rgb(192, 213, 236);
+    }
+    .content {
+        min-height: 100vh;
+        width: 100vw;
+    }
+    .footer {
+        width: 100%;
+        height: 50px;
+        background-color: rgb(50, 57, 61);
+        color: white;
+    }
+    .footer a {
+        color: inherit;
+    }
+/* Home Page */
+    .home_content {
+        width: 100vw;
+        min-height: 100vh;
+        background-color: rgb(255, 255, 255);
+    }
+    .home_content #home_welcome_card {
+        background-color: rgb(50, 57, 61);
+        border: 1px solid #ddd; /* Subtle border */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        padding: 20px;
+        max-width: 400px; /* Restrict width */
+        text-align: center;
+    }
+    
+    .home_content .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: white;
+    }
+    
+    .home_content .card-text {
+        font-size: 16px;
+        color: #ffffff; /* Subtle text color */
+    }
+/* Search page */
+    .search_content {
+        min-height: 100vh;
+        margin-top: 80px;
+        width: 90%;
+        max-width: 1200px;
+        text-align: center;
+    }
+
+    .search_content #map {
+        height: 500px;
+        width: 100%;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        margin: 20px 0;
+    }
+
+    .details label,
+    .details select,
+    .details div {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .details select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #totalCost {
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+
+.formError {
+    display: none;
+    color: red;
+}
+.alert {
+    margin: 0 auto;
+    width: 50%;
+}
+
+@media only screen and (max-width: 500px) {
+    .alert {
+        width: 80%;
+    }
+    .container-centered {
+        height: 400px;
+    }
+    /* Home Page */
+    .home_content {
+        width: 100vw;
+        min-height: 100vh;
+    }
+    .home_content #home_welcome_card {
+        height: 60%;
+        width: 75%;
+    }
+    /* Search page */
+    .search_sidenav {
+        width: 50%;
+    }
+    .search_sidenav .sidenav_item {
+        min-height: 40px;
+        font-size: 15px;
+    }
+    .search_sidenav #search_name input {
+        font-size: 10px;
+    }
+    .search_sidenav #search_name{
+        width: 95%;
+    }
+    .search_sidenav #categorySelect {
+        width: 95%;
+    }
+    .search_sidenav #search_slider {
+        font-size: 15px;
+        width: 95%;
+    }
+    .search_sidenav #search_category {
+        font-size: 15px;
+    }
+    .search_images {
+        width: 95%;
+    }
+    .search_images .card img {
+        max-height: 250px;
+    }
+    /* Viewimage page */
+    .viewimage_content {
+        width: 90%;
+    }
+    .viewimage_content .container-flex {
+        display: block;
+    }
+    .viewimage_content .image_showImage {
+        margin: 0 auto;
+        width: 90%;
+    }
+    .viewimage_content .card {
+        margin: 0 0 0 0;
+    }
+    .viewimage_content .image_info {
+        margin: 0 auto;
+        width: 90%;
+    }
+    /* Viewimage page buttons */
+    #btn-edit {
+        font-size: 11px;
+        max-width: 22%;
+    }
+    #btn-delete {
+        font-size: 11px;
+        max-width: 22%;
+    }
+    /* Profile Page */
+    .profile_content {
+        width: 90%;
+    }
+    /* Upload Page */
+    .upload_content {
+        width: 90%;
+    }
+    /* Signup Page */
+    .signup_form {
+        padding: 25px;
+        width: 80%;
+    }
+    /* Login Page */
+    .login_form {
+        padding: 25px;
+        width: 80%;
+    }
+    /* Admin page */
+    .admin_sidenav {
+        width: 50%;
+    }
+    .admin_sidenav .sidenav_item {
+        min-height: 40px;
+        font-size: 15px;
+    }
+    .admin_content .card {
+        width: 94%;
+        max-height: 90vh;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .alert {
+        width: 80%;
+    }
+    /* Home Page */
+    .home_content {
+        width: 100vw;
+        min-height: 100vh;
+    }
+    .home_content #home_welcome_card {
+        height: 60%;
+        width: 75%;
+    }
+    /* Search page */
+    .search_sidenav {
+        width: 30%;
+    }
+    .search_sidenav .sidenav_item {
+        min-height: 40px;
+        font-size: 16px;
+    }
+    .search_sidenav #search_name input {
+        font-size: 10px;
+    }
+    .search_sidenav #search_name{
+        width: 95%;
+    }
+    .search_sidenav #categorySelect {
+        width: 95%;
+    }
+    .search_sidenav #search_slider {
+        font-size: 16px;
+        width: 95%;
+    }
+    .search_sidenav #search_category {
+        font-size: 16px;
+    }
+    .search_images {
+        width: 95%;
+    }
+    .search_images .card img {
+        max-height: 400px;
+    }
+    /* Viewimage page */
+    .viewimage_content {
+        width: 90%;
+    }
+    .viewimage_content .container-flex {
+        display: block;
+    }
+    .viewimage_content .image_showImage {
+        margin: 0 auto;
+        width: 90%;
+    }
+    .viewimage_content .card {
+        margin: 0 0 0 0;
+    }
+    .viewimage_content .image_info {
+        margin: 0 auto;
+        width: 90%;
+    }
+    /* Viewimage page buttons */
+    #btn-edit {
+        font-size: 13px;
+        max-width: 25%;
+    }
+    #btn-delete {
+        font-size: 13px;
+        max-width: 25%;
+    }
+    /* Profile Page */
+    .profile_content {
+        width: 90%;
+    }
+    /* Upload Page */
+    .upload_content {
+        width: 90%;
+    }
+    /* Signup Page */
+    .signup_form {
+        padding: 25px;
+        width: 80%;
+    }
+    /* Login Page */
+    .login_form {
+        padding: 25px;
+        width: 80%;
+    }
+    /* Admin page */
+    .admin_sidenav {
+        width: 25%;
+    }
+    .admin_sidenav .sidenav_item {
+        min-height: 40px;
+        font-size: 16px;
+    }
+    .admin_content .card {
+        width: 93%;
+        max-height: 80vh;
+    }
+    .details {
+        width: 100%;
+        padding: 15px;
+    }
+
+    #map {
+        width: 100%;
+        height: 300px;
+    }
+}
