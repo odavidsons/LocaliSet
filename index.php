@@ -23,6 +23,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <!-- Ícons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
@@ -58,6 +59,9 @@ if (session_status() == PHP_SESSION_NONE) {
                     break;
                 case 'logout':
                     include('PHP/logout.php');
+                    break;
+                case 'adminPanel':
+                    include('pages/Admin.php');
                     break;
                 default:
                     include('pages/home.php');

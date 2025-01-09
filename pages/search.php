@@ -1,13 +1,20 @@
 <?php
+//Carregar incubadoras
 try {
     $stmt = $connection->query('SELECT * FROM incubadora');
     $incubadoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo "Error fetching locations: " . $e->getMessage();
+    echo "Erro ao carregar dados: " . $e->getMessage();
     $incubadoras = [];
 }
-
-
+//Carregar estacionamentos
+try {
+    $stmt = $connection->query('SELECT * FROM estacionamentos');
+    $estacionamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erro ao carregar dados: " . $e->getMessage();
+    $estacionamentos = [];
+}
 ?>
 <div class="container">
 <div class="search_content">
@@ -73,7 +80,7 @@ try {
                 const escritorioSelect = document.getElementById('escritorioSelect');
                 const detailsDiv = document.getElementById('details');
                 const saveSearchBtn = document.getElementById('saveSearchBtn');
-
+                //Popular mapa com incubadoras
                 data.forEach(location => {
                     // Add marker to the map
                     console.log(location.Nome,location.Latitude, location.Longitude);
@@ -85,6 +92,33 @@ try {
                     option.value = location.ID;
                     option.textContent = location.Nome;
                     markerSelect.appendChild(option);
+                });
+
+                //Popular mapa com estacionamentos
+                fetch('PHP/load_estacionamentos.php')
+                    .then(response => response.json())
+                    .then(data => { try {
+                        console.log("%j", data);
+                        } catch (e) {
+                            console.error('Error parsing JSON:', data);
+                        }
+                        const parkingIcon = L.divIcon({
+                            html: '<i class="fas fa-parking" style="color: red; font-size: 24px;"></i>', // Parking icon HTML
+                            className: 'custom-parking-icon', // Custom class for styling
+                            iconSize: [30, 30], // Size of the icon
+                            iconAnchor: [15, 30] // Anchor point (centered at the bottom)
+                        });
+                        data.forEach(parking => {
+                            // Add marker to the map
+                            console.log(parking.Nome,parking.Latitude, parking.Longitude);
+                            const marker = L.marker([parking.Latitude, parking.Longitude],{ icon: parkingIcon }).addTo(map);
+                            if (parking.Pago == 1) {
+                                var pago = "Sim";
+                            } else {
+                                var pago = "Não";
+                            }
+                            marker.bindPopup(`<b>${parking.Nome}</b><br>Lugares: ${parking.Lugares}<br>Pago: ${pago}`);
+                        });
                 });
 
                 // Load offices when an Incubadora is selected

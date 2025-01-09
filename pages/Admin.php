@@ -1,3 +1,30 @@
+<?php
+	if (session_status() == PHP_SESSION_NONE) {
+		session_start();
+	}
+		// Verificar se o usuário está logado
+	if (!isset($_SESSION["user_id"])) {
+		// Redirecionar para a página de login se o usuário não estiver logado
+		header("Location: index.php?page=login");
+		exit();
+	} elseif ($_SESSION['usertype'] != '1') {
+		header("Location: index.php?page=search");
+		exit();
+	}
+	require_once 'config.php';
+	$servername = $_dbhost;
+    $username = $_dbusername;
+    $password_db = $_dbpassword;
+    $dbname = $_dbname;
+	$conn = new mysqli($servername, $username, $password_db, $dbname);
+	if ($conn->connect_error) {
+        die("Erro na conexão com o banco de dados: " . $conn->connect_error);
+    }
+	$query = "SELECT * FROM escritorio";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	$result = $stmt->get_result();
+?>	
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,18 +35,13 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Ícons -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<!-- Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 <style>
-body {
-	color: #424850;
-	background: #f5f5f5;
-	font-size: 13px;
-}
+
 .table-responsive {
     margin: 30px 0;
 }
@@ -32,7 +54,7 @@ body {
 }
 .table-title {        
 	padding-bottom: 15px;
-	background: #435d7d;
+	background: rgb(50, 57, 61);
 	color: #fff;
 	padding: 16px 30px;
 	min-width: 100%;
@@ -117,6 +139,12 @@ table.table .avatar {
 	vertical-align: middle;
 	margin-right: 10px;
 }
+.table-container {
+            max-height: 700px; /* Define a altura máxima do contêiner */
+            overflow-y: auto; /* Adiciona scrollbar vertical */
+            overflow-x: auto; /* Adiciona scrollbar horizontal (se necessário) */
+            border: 1px solid #ddd; /* Borda para destacar o contêiner */
+        }
 .pagination {
 	float: right;
 	margin: 0 0 5px;
@@ -289,78 +317,23 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<header class="p-2">
-	<div class="container-fluid">
-	<div class="d-flex flex-wrap justify-content-center justify-content-lg-start">
-	<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	<li class="nav-item">
-	<a class="nav-link text-light" href="index.php?page=home">Home</a>
-	</li>
-					<li class="nav-item">
-	<a class="nav-link text-light" href="index.php?page=search">Search</a>
-	</li>
-	</ul>
-	<div class="text-end">
-	<ul class="nav">
-					<?php
-					if (isset($_SESSION['username'])) {
-	if ($_SESSION['usertype'] == '1') {
-	echo "<li class='nav-item'>
-	<a class='nav-link text-light' href='index.php?page=adminPanel'>Admin Panel</a>
-	</li>";
-	}
-						?>
-	<li class="nav-item">
-	<a class="nav-link text-light" href="index.php?page=profile">Profile</a>
-	</li>
-						<li class="nav-item">
-	<a class="nav-link text-light"><?php echo $_SESSION['username'] ?></a>
-	</li>
-	<li class="nav-item">
-	<a class="nav-link text-light" href="index.php?page=logout"><span class='material-symbols-outlined align-middle'>logout</span> </a>
-	</li>
-						<?php
-					} else {
-						?>
-	<li class="nav-item">
-	<a class="nav-link text-light">Guest Access</a>
-	</li>
-						<li class="nav-item dropdown-center">
-	<a class="nav-link dropdown-toggle text-light" href="#" data-bs-toggle="dropdown"
-	aria-expanded="false">Session</a>
-	<ul class="dropdown-menu">
-	<li>
-	<a class="dropdown-item text-dark"
-	href="index.php?page=login">Login</a>
-	</li>
-	<li>
-	<a class="dropdown-item text-dark"
-	href="index.php?page=signup">Register</a>
-	</li>
-	</ul>
-		</li>
-						<?php
-					}
-					?>
-	</ul>
-	</div>
-	</div>
-	</div>
-</header>
+
+
 <div class="container-xl">
 	<div class="table-responsive">
 		<div class="table-wrapper">
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Manage <b>Employees</b></h2>
+						<h2>Administração de <b>Escritórios</b></h2>
 					</div>
 					<div class="col-sm-6">
-						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-						<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Adicionar Escritorio</span></a>
+						<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Eliminar</span></a>						
 					</div>
 				</div>
 			</div>
+			<div class="table-container">
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -370,146 +343,85 @@ $(document).ready(function(){
 								<label for="selectAll"></label>
 							</span>
 						</th>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Address</th>
-						<th>Phone</th>
+						<th>Número</th>
+						<th>Tamanho</th>
+						<th>Preço</th>
+						<th>IDIncubadora</th>
+						<th>Disponibilidade</th>			
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+				<?php
+					while ($row = $result->fetch_assoc()) {
+						$checkboxId = "checkbox" . $row["ID"];
+						echo'<tr>
 						<td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
-								<label for="checkbox1"></label>
+								<input type="checkbox" id="'.$checkboxId.'" name="options[]" value="'.$checkboxId.'">
+								<label for="' . $checkboxId . '"></label>
 							</span>
 						</td>
-						<td>Thomas Hardy</td>
-						<td>thomashardy@mail.com</td>
-						<td>89 Chiaroscuro Rd, Portland, USA</td>
-						<td>(171) 555-2222</td>
+						<td>'. $row["Numero"] .'</td>
+						<td>'. $row["Tamanho"] .'</td>
+						<td>'. $row["Preco"] .'</td>
+						<td>'. $row["IDIncubadora"] .'</td>
+						<td>'. $row["Disponibilidade"] .'</td>
 						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i></a>
 						</td>
 					</tr>
-					<tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox2" name="options[]" value="1">
-								<label for="checkbox2"></label>
-							</span>
-						</td>
-						<td>Dominique Perrier</td>
-						<td>dominiqueperrier@mail.com</td>
-						<td>Obere Str. 57, Berlin, Germany</td>
-						<td>(313) 555-5735</td>
-						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox3" name="options[]" value="1">
-								<label for="checkbox3"></label>
-							</span>
-						</td>
-						<td>Maria Anders</td>
-						<td>mariaanders@mail.com</td>
-						<td>25, rue Lauriston, Paris, France</td>
-						<td>(503) 555-9931</td>
-						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox4" name="options[]" value="1">
-								<label for="checkbox4"></label>
-							</span>
-						</td>
-						<td>Fran Wilson</td>
-						<td>franwilson@mail.com</td>
-						<td>C/ Araquil, 67, Madrid, Spain</td>
-						<td>(204) 619-5731</td>
-						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-						</td>
-					</tr>					
-					<tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox5" name="options[]" value="1">
-								<label for="checkbox5"></label>
-							</span>
-						</td>
-						<td>Martin Blank</td>
-						<td>martinblank@mail.com</td>
-						<td>Via Monte Bianco 34, Turin, Italy</td>
-						<td>(480) 631-2097</td>
-						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-						</td>
-					</tr> 
+					<tr>';
+					}
+				?>
 				</tbody>
 			</table>
-			<div class="clearfix">
-				<div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-				<ul class="pagination">
-					<li class="page-item disabled"><a href="#">Previous</a></li>
-					<li class="page-item"><a href="#" class="page-link">1</a></li>
-					<li class="page-item"><a href="#" class="page-link">2</a></li>
-					<li class="page-item active"><a href="#" class="page-link">3</a></li>
-					<li class="page-item"><a href="#" class="page-link">4</a></li>
-					<li class="page-item"><a href="#" class="page-link">5</a></li>
-					<li class="page-item"><a href="#" class="page-link">Next</a></li>
-				</ul>
-			</div>
 		</div>
 	</div>        
+</div>
 </div>
 <!-- Edit Modal HTML -->
 <div id="addEmployeeModal" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form>
+			<form id="AddFormulario">
 				<div class="modal-header">						
-					<h4 class="modal-title">Add Employee</h4>
+					<h4 class="modal-title">Adicionar Escritorio</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body">					
+				<div class="modal-body">	
 					<div class="form-group">
-						<label>Name</label>
-						<input type="text" class="form-control" required>
+						<label>Número do escritorio</label>
+						<input id="Numero"type="text" class="form-control" required>
+					</div>					
+					<div class="form-group">
+						<label>Tamanho</label>
+						<input id="Tamanho" type="text" class="form-control" required>
 					</div>
 					<div class="form-group">
-						<label>Email</label>
-						<input type="email" class="form-control" required>
+						<label>Preço</label>
+						<input id="Preco" type="text" class="form-control" required>
 					</div>
 					<div class="form-group">
-						<label>Address</label>
-						<textarea class="form-control" required></textarea>
+						<label>IDIncubadora</label>
+						<input id="IdIncubadora" type="text" class="form-control" required>
 					</div>
 					<div class="form-group">
-						<label>Phone</label>
-						<input type="text" class="form-control" required>
+						<label>Disponibilidade</label>
+						<input id="Disponibilidade" type="text" class="form-control" required>
 					</div>					
 				</div>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-success" value="Add">
+					<input type="submit" name="acao" value="adicionar" class="btn btn-success" value="Add">
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../include/adicionar.js"></script>
 <!-- Edit Modal HTML -->
 <div id="editEmployeeModal" class="modal fade">
 	<div class="modal-dialog">

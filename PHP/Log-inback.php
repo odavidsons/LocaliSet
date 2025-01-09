@@ -39,7 +39,7 @@ $password = $_POST["password"];
                 if($row['Administrador'] == 1)
                 {
                     $_SESSION['usertype'] = 1;
-                    header("Location: ../pages/admin.php");
+                    header("Location: ../index.php?page=adminPanel");
                 }else{
                     $_SESSION['usertype'] = 0;
                     header("Location: ../index.php?page=search"); // Redireciona para uma página protegida
