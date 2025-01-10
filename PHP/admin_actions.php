@@ -8,6 +8,7 @@ if ($connection->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //Ações escritorios
     if (isset($_POST['add'])) {
         $idIncubadora = $_POST['IDIncubadora'];
         $tamanho = $_POST['Tamanho'];
@@ -35,6 +36,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $id = $_POST['ID'];
         $stmt = $connection->prepare("DELETE FROM escritorio WHERE ID = ?");
         $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    //Ações incubadora
+     if (isset($_POST['add_incubadora'])) {
+        $nome = $_POST['NomeIncubadora'];
+        $latitude = $_POST['LatitudeIncubadora'];
+        $longitude = $_POST['LongitudeIncubadora'];
+        $contacto = $_POST['ContactoIncubadora'];
+        $email = $_POST['EmailIncubadora'];
+        $numEscritorios = $_POST['QtdEscritoriosIncubadora'];
+
+        $stmt = $connection->prepare("INSERT INTO incubadora (Nome, Latitude, Longitude, Contacto, Email, NumEscritorios) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sddssi", $nome, $latitude, $longitude, $contacto, $email, $numEscritorios);
+        $stmt->execute();
+        $stmt->close();
+    } elseif (isset($_POST['update_incubadora'])) {
+        $id_incubadora = $_POST['ID_Incubadora'];
+        $nome = $_POST['NomeIncubadora'];
+        $latitude = $_POST['LatitudeIncubadora'];
+        $longitude = $_POST['LongitudeIncubadora'];
+        $contacto = $_POST['ContactoIncubadora'];
+        $email = $_POST['EmailIncubadora'];
+        $numEscritorios = $_POST['QtdEscritoriosIncubadora'];
+        
+        $stmt = $connection->prepare("UPDATE incubadora SET Nome = ?, Latitude = ?, Longitude = ?, Contacto = ?, Email = ?, NumEscritorios = ? WHERE ID = ?");
+        $stmt->bind_param("sddssii", $nome, $latitude, $longitude, $contacto, $email, $numEscritorios, $id_incubadora);
+        $stmt->execute();
+        $stmt->close();
+    } elseif (isset($_POST['delete_incubadora'])) {
+        $id_incubadora = $_POST['ID_Incubadora'];
+        
+        $stmt = $connection->prepare("DELETE FROM incubadora WHERE ID = ?");
+        $stmt->bind_param("i", $id_incubadora);
         $stmt->execute();
         $stmt->close();
     }
